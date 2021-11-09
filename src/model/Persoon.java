@@ -9,29 +9,25 @@ package model;
  */
 
 public class Persoon {
-    private static final String DEFAULT_NAAM = "Onbekend";
-    private static final int DEFAULT_MAANDSALARIS = 0;
-    private static final String DEFAULT_WOONPLAATS = "Onbekend";
-    private static final double GRENSWAARDE_BONUS = 4500;
-
     public static int aantalPersonen = 0;
 
-    private int personeelsNummer;
-    private String naam;
-    private String woonplaats;
-    private double maandsalaris;
-    private Afdeling afdeling;
+    protected static final String DEFAULT_NAAM = "Onbekend";
+    protected static final String DEFAULT_WOONPLAATS = "Onbekend";
 
-    public Persoon(String naam, String woonplaats, double maandsalaris, Afdeling afdeling){
+    protected int personeelsNummer;
+    protected String naam;
+    protected String woonplaats;
+    protected Afdeling afdeling;
+
+    public Persoon(String naam, String woonplaats, Afdeling afdeling){
         this.setNaam(naam);
         this.setWoonplaats(woonplaats);
-        this.setMaandsalaris(maandsalaris);
         this.afdeling = afdeling;
         this.personeelsNummer = ++aantalPersonen;
     }
 
     public Persoon(String naam) {
-        this(naam, DEFAULT_WOONPLAATS, DEFAULT_MAANDSALARIS, new Afdeling());
+        this(naam, DEFAULT_WOONPLAATS, new Afdeling());
     }
 
     public Persoon(){
@@ -39,11 +35,12 @@ public class Persoon {
     }
 
     public double berekenJaarinkomen() {
-        return maandsalaris * 12;
+        return 0.0;
     }
 
-    public boolean heeftRechtOpBonus() {
-        return maandsalaris >= GRENSWAARDE_BONUS;
+    @Override
+    public String toString() {
+        return String.format("%s woont in %s en werkt op %s", naam, woonplaats, afdeling);
     }
 
     public int getPersoneelsNummer() {
@@ -68,19 +65,6 @@ public class Persoon {
 
     public void setWoonplaats(String woonplaats) {
         this.woonplaats = woonplaats;
-    }
-
-    public double getMaandsalaris() {
-        return maandsalaris;
-    }
-
-    public void setMaandsalaris(double maandsalaris) {
-        if (maandsalaris < 0) {
-            System.out.println("Het maandsalaris kan niet negatief zijn. Het maandsalaris wordt 0.");
-            this.maandsalaris = 0;
-        } else {
-            this.maandsalaris = maandsalaris;
-        }
     }
 
     public Afdeling getAfdeling() {

@@ -11,23 +11,28 @@ public class Afdeling {
     private static final String DEFAULT_AFDELINGS_NAAM = "Onbekend";
     private static final String DEFAULT_AFDELINGS_PLAATS = "Onbekend";
 
-    private String afdelingsNaam;
-    private String afdelingsPlaats;
+    private String afdelingsnaam;
+    private String afdelingsplaats;
 
     public Afdeling(String afdelingsNaam, String afdelingsPlaats) {
-        this.afdelingsNaam = afdelingsNaam;
-        this.afdelingsPlaats = afdelingsPlaats;
+        this.afdelingsnaam = afdelingsNaam;
+        this.afdelingsplaats = afdelingsPlaats;
     }
 
     public Afdeling() {
         this(DEFAULT_AFDELINGS_NAAM, DEFAULT_AFDELINGS_PLAATS);
     }
 
-    public String getAfdelingsNaam() {
-        return afdelingsNaam;
+    @Override
+    public String toString() {
+        return String.format("afdeling %s te %s", afdelingsnaam, afdelingsplaats);
     }
 
-    public String getAfdelingsPlaats() {
-        return afdelingsPlaats;
+    public String getAfdelingsnaam() {
+        return afdelingsnaam;
+    }
+
+    public String getAfdelingsplaats() {
+        return afdelingsplaats;
     }
 }
