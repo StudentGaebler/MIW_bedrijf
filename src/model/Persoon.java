@@ -8,7 +8,7 @@ package model;
  * Beschrijft de eigenschappen van een persoon binnen het bedrijf
  */
 
-public class Persoon {
+public abstract class Persoon {
     public static int aantalPersonen = 0;
 
     protected static final String DEFAULT_NAAM = "Onbekend";
@@ -34,9 +34,7 @@ public class Persoon {
         this(DEFAULT_NAAM);
     }
 
-    public double berekenJaarinkomen() {
-        return 0.0;
-    }
+    public abstract double berekenJaarinkomen();
 
     @Override
     public String toString() {

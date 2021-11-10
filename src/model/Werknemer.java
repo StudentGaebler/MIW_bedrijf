@@ -37,7 +37,7 @@ public class Werknemer extends Persoon {
 
     @Override
     public String toString() {
-        return String.format("%s en is een werknemer %s recht op een bonus.\n",
+        return String.format("%s en is een werknemer %s recht op een bonus.",
                 super.toString(), heeftRechtOpBonus() ? "met" : "zonder");
     }
     public void setMaandsalaris(double maandsalaris) {
