@@ -30,17 +30,11 @@ public class BedrijfLauncher {
         assistent.huurIn(160);
         projectleider.huurIn(320);
 
-        Persoon[] personen = new Persoon[4];
-        personen[0] = baas;
-        personen[1] = medewerker;
-        personen[2] = assistent;
-        personen[3] = projectleider;
-
-        System.out.printf("Het aantal personen in het bedrijf is %d.\n", Persoon.aantalPersonen);
-        System.out.println(baas.toString());
-        System.out.println(medewerker.toString());
-        System.out.println(assistent.toString());
-        System.out.println(projectleider.toString());
+        Persoon[] personen = {
+                baas,
+                medewerker,
+                assistent,
+                projectleider};
 
         for (Persoon persoon : personen) {
             toonJaarinkomen(persoon);

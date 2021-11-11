@@ -19,11 +19,13 @@ public class Werknemer extends Persoon {
     }
 
     public Werknemer(String naam) {
-        this(naam, DEFAULT_WOONPLAATS, new Afdeling(), DEFAULT_MAANDSALARIS);
+        super(naam);
+        this.maandsalaris = DEFAULT_MAANDSALARIS;
     }
 
     public Werknemer() {
-        this(DEFAULT_NAAM);
+        super();
+        this.maandsalaris = DEFAULT_MAANDSALARIS;
     }
 
     public boolean heeftRechtOpBonus() {
@@ -40,6 +42,7 @@ public class Werknemer extends Persoon {
         return String.format("%s en is een werknemer %s recht op een bonus.",
                 super.toString(), heeftRechtOpBonus() ? "met" : "zonder");
     }
+
     public void setMaandsalaris(double maandsalaris) {
         if (maandsalaris < 0) {
             System.out.printf("Het maandsalaris mag niet negatief zijn, het wordt nu op %.2f gezet.\n",

@@ -18,17 +18,8 @@ public class Zzper extends Persoon {
         this.urenGewerkt = DEFAULT_UREN_GEWERKT;
     }
 
-    public Zzper() {
-        this(DEFAULT_NAAM, DEFAULT_WOONPLAATS, new Afdeling(), DEFAULT_UURTARIEF);
-    }
-
     public void huurIn(int uren) {
         urenGewerkt += uren;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s en is een zzp-er met een uurtarief van %.2f", super.toString(), uurtarief);
     }
 
     @Override
@@ -36,4 +27,8 @@ public class Zzper extends Persoon {
         return urenGewerkt * uurtarief;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s en is een zzp-er met een uurtarief van %.2f", super.toString(), uurtarief);
+    }
 }
