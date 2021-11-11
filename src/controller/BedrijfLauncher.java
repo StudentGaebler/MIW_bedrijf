@@ -6,6 +6,7 @@ import model.Werknemer;
 import model.Zzper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Martijn Gäbler <m.gabler@st.hanze.nl>
@@ -44,6 +45,9 @@ public class BedrijfLauncher {
                 ((Zzper) persoon).huurIn(320);
             }
         }
+
+        // sorteer op naam
+        Collections.sort(personen);
 
         // 6) Gebruik een for-loop en de al bestaande methode toonJaarInkomen() om de volgende uitvoer te krijgen:
         for (Persoon persoon : personen) {
