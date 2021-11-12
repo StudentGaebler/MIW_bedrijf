@@ -38,7 +38,7 @@ public abstract class Persoon implements Comparable<Persoon> {
 
     @Override
     public int compareTo(Persoon anderePersoon) {
-        return this.naam.compareTo(anderePersoon.getNaam());
+        return this.getNaam().compareTo(anderePersoon.getNaam());
     }
 
     @Override
