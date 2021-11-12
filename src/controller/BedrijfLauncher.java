@@ -2,6 +2,10 @@ package controller;
 
 import model.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
@@ -17,33 +21,70 @@ import java.util.Scanner;
 public class BedrijfLauncher {
 
     public static void main(String[] args) {
-        Scanner keyboard = new Scanner(System.in);
-
-        System.out.print("Geef de naam: ");
-        String naam = keyboard.next();
-        System.out.print("Geef de woonplaats: ");
-        String woonplaats = keyboard.next();
-        System.out.print("Geef de naam van de afdeling: ");
-        String naamAfdeling = keyboard.next();
-        System.out.print("Geef de plaats van de afdeling: ");
-        String plaatsAfdeling = keyboard.next();
-
-        boolean onjuisteInvoer = true;
-        while (onjuisteInvoer) {
-            System.out.print("Geef het maandsalaris: ");
-            try {
-                double maandsalaris = keyboard.nextDouble();
-                Werknemer nieuweWerknemer = new Werknemer(naam, woonplaats, new Afdeling(naamAfdeling, plaatsAfdeling), maandsalaris);
-                System.out.println(nieuweWerknemer);
-                onjuisteInvoer = false;
-            } catch (InputMismatchException invoerFout) {
-                System.out.println("Verkeerde invoer probeer het opnieuw.");
-            } catch (IllegalArgumentException maandsalarisFout) {
-                System.out.println(maandsalarisFout.getMessage());
-            } finally {
-                System.out.println("Je invoer is op de juiste wijze afgehandeld.");
-                keyboard.nextLine();
+        // 4) Lees de afdelingen uit het tekstbestand Afdelingen.txt en voeg ze toe aan de arraylist met
+        //de naam afdelingen. Let op: de naam en plaats van de afdeling staan op twee verschillende
+        //regels in het tekstbestand.
+        ArrayList<Afdeling> afdelingen = new ArrayList<>();
+        File afdelingenBestand = new File("resources/Afdelingen.txt");
+        try {
+            Scanner bestandScanner = new Scanner(afdelingenBestand);
+            while (bestandScanner.hasNextLine()) {
+                afdelingen.add(new Afdeling(bestandScanner.nextLine(), bestandScanner.nextLine()));
             }
+        } catch (FileNotFoundException nietGevonden) {
+            System.out.println("Het bestand is niet gevonden. Bestandsnaam: " + afdelingenBestand);
+        }
+        System.out.println(afdelingen);
+
+        //5) Lees vervolgens de diverse personen uit het bestand Personen.csv en voeg ze toe aan een
+        //arraylist met de naam personen. Een regel bestaat uit het volgende: type persoon, naam,
+        //woonplaats, index van de arraylist afdelingen, maandsalaris/uurtarief/0.
+        ArrayList<Persoon> personen = new ArrayList<>();
+        File personenBestand = new File("resources/Personen.csv");
+        try {
+            Scanner bestandScanner = new Scanner(personenBestand);
+            while (bestandScanner.hasNextLine()) {
+                String[] regel = bestandScanner.nextLine().split(",");
+                String typePersoon = regel[0];
+                String naam = regel[1];
+                String woonplaats = regel[2];
+                int indexAfdeling = Integer.parseInt(regel[3]);
+                double maandsalarisOfUurtarief = Double.parseDouble(regel[4]);
+
+                switch (typePersoon) {
+                    case "Werknemer" -> personen.add(new Werknemer(naam, woonplaats, afdelingen.get(indexAfdeling),
+                            maandsalarisOfUurtarief));
+                    case "Zzper" -> personen.add(new Zzper(naam, woonplaats, afdelingen.get(indexAfdeling),
+                            maandsalarisOfUurtarief));
+                    case "Vrijwilliger" -> personen.add(new Vrijwilliger(naam, woonplaats,
+                            afdelingen.get(indexAfdeling)));
+                }
+            }
+        } catch (FileNotFoundException nietGevonden) {
+            System.out.println("Het bestand is niet gevonden. Bestandsnaam: " + personenBestand);
+        }
+
+        // 6) Sorteer de arraylist met personen en druk deze af.
+        Collections.sort(personen);
+
+        // 7) Voeg code toe om een uitvoerbestand PersonenPerAfdeling.txt te maken dat er zo
+        //uitziet:
+        File uitvoerBestand = new File("resources/PersonenPerAfdeling.txt");
+        try {
+            PrintWriter printWriter = new PrintWriter(uitvoerBestand);
+            for (Afdeling afdeling : afdelingen) {
+                printWriter.println("Afdeling: " + afdeling.getAfdelingsnaam());
+                for (Persoon persoon : personen) {
+                    if (afdeling.equals(persoon.getAfdeling())) {
+                        printWriter.println("-- " + persoon);
+                    }
+                }
+                printWriter.println();
+            }
+
+            printWriter.close();
+        } catch (IOException nietGemaakt) {
+            System.out.println("Het bestand kan niet gemaakt worden.");
         }
     }
 }
