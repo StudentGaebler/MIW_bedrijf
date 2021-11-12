@@ -8,6 +8,8 @@ package model;
 
 public class Vrijwilliger extends Persoon implements Oproepbaar {
     private static final int DEFAULT_UREN_GEWERKT = 0;
+    private static final int INKOMEN_VAN_VRIJWILLIGER = 0;
+
     private int urenGewerkt;
 
     public Vrijwilliger(String naam, String woonplaats, Afdeling afdeling) {
@@ -22,7 +24,7 @@ public class Vrijwilliger extends Persoon implements Oproepbaar {
 
     @Override
     public double berekenJaarinkomen() {
-        return 0;
+        return INKOMEN_VAN_VRIJWILLIGER;
     }
 
     @Override

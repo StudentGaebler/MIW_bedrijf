@@ -7,7 +7,6 @@ package model;
  */
 
 public class Zzper extends Persoon implements Oproepbaar {
-    private static final double DEFAULT_UURTARIEF = 0.0;
     private static final int DEFAULT_UREN_GEWERKT = 0;
     private double uurtarief;
     private int urenGewerkt;
