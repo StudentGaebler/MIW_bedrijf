@@ -15,7 +15,7 @@ public class Werknemer extends Persoon {
 
     public Werknemer(String naam, String woonplaats, Afdeling afdeling, double maandsalaris) {
         super(naam, woonplaats, afdeling);
-        this.maandsalaris = maandsalaris;
+        setMaandsalaris(maandsalaris);
     }
 
     public Werknemer(String naam) {
@@ -45,9 +45,7 @@ public class Werknemer extends Persoon {
 
     public void setMaandsalaris(double maandsalaris) {
         if (maandsalaris < 0) {
-            System.out.printf("Het maandsalaris mag niet negatief zijn, het wordt nu op %.2f gezet.\n",
-                    DEFAULT_MAANDSALARIS);
-            this.maandsalaris = DEFAULT_MAANDSALARIS;
+            throw new IllegalArgumentException("Het maandsalaris mag niet negatief zijn.");
         } else {
             this.maandsalaris = maandsalaris;
         }

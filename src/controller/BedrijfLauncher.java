@@ -4,6 +4,8 @@ import model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
  * @author Martijn Gäbler <m.gabler@st.hanze.nl>
@@ -15,58 +17,33 @@ import java.util.Collections;
 public class BedrijfLauncher {
 
     public static void main(String[] args) {
-        // 2) Behoud de array met vier afdelingen, zoals ze al in de main methode staan.
-        Afdeling[] afdelingen = new Afdeling[4];
+        Scanner keyboard = new Scanner(System.in);
 
-        afdelingen[0] = new Afdeling("Uitvoering", "Hilversum");
-        afdelingen[1] = new Afdeling("Support", "Amsterdam");
-        afdelingen[2] = new Afdeling("Management", "Almere");
-        afdelingen[3] = new Afdeling("Documentatie", "Gouda");
+        System.out.print("Geef de naam: ");
+        String naam = keyboard.next();
+        System.out.print("Geef de woonplaats: ");
+        String woonplaats = keyboard.next();
+        System.out.print("Geef de naam van de afdeling: ");
+        String naamAfdeling = keyboard.next();
+        System.out.print("Geef de plaats van de afdeling: ");
+        String plaatsAfdeling = keyboard.next();
 
-        // 3) Maak een arraylist met objecten van de klasse Persoon met de naam personen.
-        ArrayList<Persoon> personen = new ArrayList<>();
-
-        // 4) Vul de arraylist als volgt:
-        personen.add(new Werknemer("Mark", "Den Haag", afdelingen[2], 10000));
-        personen.add(new Werknemer("Angelique", "Rotterdam", afdelingen[2], 5000));
-        personen.add(new Werknemer("Caroline", "Delft", afdelingen[1], 4000));
-        personen.add(new Zzper("Klaas", "Diemen", afdelingen[3], 50.00));
-        personen.add(new Zzper("Ronald", "Zaandam", afdelingen[0], 80));
-        personen.add(new Zzper("Jannie", "Utrecht", afdelingen[0], 60.00));
-        personen.add(new Zzper("Anne", "Zwolle", afdelingen[0], 40.00));
-        personen.add(new Vrijwilliger("Ambi", "Amsterdam", afdelingen[0]));
-        personen.add(new Vrijwilliger("Naledi", "Gaborone", afdelingen[1]));
-        personen.add(new Vrijwilliger("Ceren", "Istanboel", afdelingen[2]));
-        personen.add(new Vrijwilliger("Haining", "Shaoxing", afdelingen[3]));
-
-        // 7.1.6b huur alle vrijwilligers 160 uur in.
-        for (Persoon persoon : personen) {
-            if (persoon instanceof Vrijwilliger) {
-                ((Vrijwilliger) persoon).huurIn(160);
+        boolean onjuisteInvoer = true;
+        while (onjuisteInvoer) {
+            System.out.print("Geef het maandsalaris: ");
+            try {
+                double maandsalaris = keyboard.nextDouble();
+                Werknemer nieuweWerknemer = new Werknemer(naam, woonplaats, new Afdeling(naamAfdeling, plaatsAfdeling), maandsalaris);
+                System.out.println(nieuweWerknemer);
+                onjuisteInvoer = false;
+            } catch (InputMismatchException invoerFout) {
+                System.out.println("Verkeerde invoer probeer het opnieuw.");
+            } catch (IllegalArgumentException maandsalarisFout) {
+                System.out.println(maandsalarisFout.getMessage());
+            } finally {
+                System.out.println("Je invoer is op de juiste wijze afgehandeld.");
+                keyboard.nextLine();
             }
         }
-
-        // 5) Gebruik een for-loop met instanceof en typecasting om alle zzp-ers in de arraylist
-        // voor 320 uur in te huren.
-        for (Persoon persoon : personen) {
-            if (persoon instanceof Zzper) {
-                ((Zzper) persoon).huurIn(320);
-            }
-        }
-
-        // 7.1.6c sorteer op naam
-        Collections.sort(personen);
-
-        // 6) Gebruik een for-loop en de al bestaande methode toonJaarInkomen() om de volgende uitvoer te krijgen:
-        for (Persoon persoon : personen) {
-            System.out.println(persoon);
-            toonJaarinkomen(persoon);
-            System.out.println(); // toegevoegd voor de leesbaarheid.
-        }
     }
-
-    public static void toonJaarinkomen(Persoon persoon) {
-        System.out.printf("%s verdient %.2f per jaar.\n", persoon.getNaam(), persoon.berekenJaarinkomen());
-    }
-
 }
