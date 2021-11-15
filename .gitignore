@@ -2,3 +2,4 @@
 /.idea/
 /Bedrijf.iml
 /resources/
+/src/database/DBaccess.java
