@@ -27,12 +27,14 @@ public class BedrijfLauncher {
         ArrayList<Afdeling> afdelingen = new ArrayList<>();
         File afdelingenBestand = new File("resources/Afdelingen.txt");
         try {
-            Scanner bestandScanner = new Scanner(afdelingenBestand);
-            while (bestandScanner.hasNextLine()) {
-                afdelingen.add(new Afdeling(bestandScanner.nextLine(), bestandScanner.nextLine()));
+            Scanner afdelingenBestandScanner = new Scanner(afdelingenBestand);
+            while (afdelingenBestandScanner.hasNextLine()) {
+                String afdelingsNaam = afdelingenBestandScanner.nextLine();
+                String afdelingsPlaats = afdelingenBestandScanner.nextLine();
+                afdelingen.add(new Afdeling(afdelingsNaam, afdelingsPlaats));
             }
         } catch (FileNotFoundException nietGevonden) {
-            System.out.println("Het bestand is niet gevonden. Bestandsnaam: " + afdelingenBestand);
+            System.out.println("Het bestand is niet gevonden. Bestandsnaam: " + afdelingenBestand.getAbsolutePath());
         }
         System.out.println(afdelingen);
 
@@ -42,22 +44,20 @@ public class BedrijfLauncher {
         ArrayList<Persoon> personen = new ArrayList<>();
         File personenBestand = new File("resources/Personen.csv");
         try {
-            Scanner bestandScanner = new Scanner(personenBestand);
-            while (bestandScanner.hasNextLine()) {
-                String[] regel = bestandScanner.nextLine().split(",");
+            Scanner personenBestandScanner = new Scanner(personenBestand);
+            while (personenBestandScanner.hasNextLine()) {
+                String[] regel = personenBestandScanner.nextLine().split(",");
                 String typePersoon = regel[0];
                 String naam = regel[1];
                 String woonplaats = regel[2];
                 int indexAfdeling = Integer.parseInt(regel[3]);
-                double maandsalarisOfUurtarief = Double.parseDouble(regel[4]);
+                Afdeling afdeling = afdelingen.get(indexAfdeling);
+                double ietsMetGeld = Double.parseDouble(regel[4]);
 
                 switch (typePersoon) {
-                    case "Werknemer" -> personen.add(new Werknemer(naam, woonplaats, afdelingen.get(indexAfdeling),
-                            maandsalarisOfUurtarief));
-                    case "Zzper" -> personen.add(new Zzper(naam, woonplaats, afdelingen.get(indexAfdeling),
-                            maandsalarisOfUurtarief));
-                    case "Vrijwilliger" -> personen.add(new Vrijwilliger(naam, woonplaats,
-                            afdelingen.get(indexAfdeling)));
+                    case "Werknemer" -> personen.add(new Werknemer(naam, woonplaats, afdeling, ietsMetGeld));
+                    case "Zzper" -> personen.add(new Zzper(naam, woonplaats, afdeling, ietsMetGeld));
+                    case "Vrijwilliger" -> personen.add(new Vrijwilliger(naam, woonplaats, afdeling));
                 }
             }
         } catch (FileNotFoundException nietGevonden) {
@@ -75,7 +75,7 @@ public class BedrijfLauncher {
             for (Afdeling afdeling : afdelingen) {
                 printWriter.println("Afdeling: " + afdeling.getAfdelingsnaam());
                 for (Persoon persoon : personen) {
-                    if (afdeling.equals(persoon.getAfdeling())) {
+                    if (afdeling.getAfdelingsnaam().equals(persoon.getAfdeling().getAfdelingsnaam())) {
                         printWriter.println("-- " + persoon);
                     }
                 }
